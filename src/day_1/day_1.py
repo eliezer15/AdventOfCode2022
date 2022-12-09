@@ -36,22 +36,18 @@ Find the Elf carrying the most Calories. How many total Calories is that Elf car
 '''
 Main method
 '''
+
 def part_one():
     current_total = 0
     max_calories = -1
 
-    with open('input.txt', 'r', encoding='utf-8') as file:
-        line = file.readline()
-
-        while line != '':
-            if line.isspace():
-                max_calories = max(max_calories, current_total)
-                current_total = 0
-            else:
-                number_value = int(line)
-                current_total += number_value
-            
-            line = file.readline()
+    for line in get_input_lines():
+        if line.isspace():
+            max_calories = max(max_calories, current_total)
+            current_total = 0
+        else:
+            number_value = int(line)
+            current_total += number_value
     
     print(f'The max number of calories is {max_calories}')
 
@@ -69,31 +65,30 @@ def part_two():
     top_calories = list()
     current_total = 0
 
-    with open('input.txt', 'r', encoding='utf-8') as file:
-        line = file.readline()
+    for line in get_input_lines():
+        if line.isspace():
+            top_calories.append(current_total)
+            current_total = 0
 
-        while line != '':
-            if line.isspace():
-                top_calories.append(current_total)
-                current_total = 0
+        else:
+            number_value = int(line)
+            current_total += number_value
 
-            else:
-                number_value = int(line)
-                current_total += number_value
-            
-            line = file.readline()
+    top_calories.sort(reverse=True)
 
-        top_calories.sort(reverse=True)
+    top_n_total = 0
+    for i in range(top_n):
+        top_n_total += top_calories[i]
 
-        top_n_total = 0
-        for i in range(top_n):
-            top_n_total += top_calories[i]
-
-        print(f'The top {top_n} elves are carrying a total of {top_n_total} calories')
+    print(f'The top {top_n} elves are carrying a total of {top_n_total} calories')
 
 def main():
-    #part_one()
+    part_one()
     part_two()
+
+def get_input_lines():
+    with open('input.txt', 'r') as file:
+        return file.readlines()
 
 if __name__ == '__main__':
     main()

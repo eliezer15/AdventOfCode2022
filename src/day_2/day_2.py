@@ -47,36 +47,31 @@ def part_one():
 
     total_score = 0
 
-    with open('input.txt', 'r') as file:
-        line = file.readline()
+    for line in get_input_lines():
+        input = line.split()
+        opponent_shape = letter_to_shape[input[0]]
+        my_shape = letter_to_shape[input[1]]
 
-        while line != '':
-            input = line.split()
-            opponent_shape = letter_to_shape[input[0]]
-            my_shape = letter_to_shape[input[1]]
+        total_score += my_shape
 
-            total_score += my_shape
-
-            # Find the winner. I win if my value is exactly one point greater than opponent
-            # but circling back to the beginning, i.e, 3+1 goes around back to 1
+        # Find the winner. I win if my value is exactly one point greater than opponent
+        # but circling back to the beginning, i.e, 3+1 goes around back to 1
+        
+        result = ''
+        if opponent_shape == my_shape:
+            result = 'draw'
+        
+        else:
+            opponent_shape_plus_1 = opponent_shape + 1 
+            if opponent_shape + 1 > 3:
+                opponent_shape_plus_1 = 1
             
-            result = ''
-            if opponent_shape == my_shape:
-                result = 'draw'
-            
+            if opponent_shape_plus_1 == my_shape:
+                result = 'win'
             else:
-                opponent_shape_plus_1 = opponent_shape + 1 
-                if opponent_shape + 1 > 3:
-                    opponent_shape_plus_1 = 1
-                
-                if opponent_shape_plus_1 == my_shape:
-                    result = 'win'
-                else:
-                    result = 'lose'
+                result = 'lose'
 
-            total_score += result_to_points[result]
-
-            line = file.readline()
+        total_score += result_to_points[result]
 
     print(f'The total projected score is {total_score}')
             
@@ -115,41 +110,40 @@ def part_two():
 
     total_score = 0
 
-    with open('input.txt', 'r') as file:
-        line = file.readline()
+    for line in get_input_lines():
+        input = line.split()
+        opponent_shape = letter_to_shape[input[0]]
+        needed_result = letter_to_result[input[1]]
 
-        while line != '':
-            input = line.split()
-            opponent_shape = letter_to_shape[input[0]]
-            needed_result = letter_to_result[input[1]]
+        total_score += result_to_points[needed_result]
 
-            total_score += result_to_points[needed_result]
+        # Find the winner. I win if my value is exactly one point greater than opponent
+        # but circling back to the beginning, i.e, 3+1 goes around back to 1
+        
+        my_shape = 0
+        if needed_result == 'draw':
+            #play the same shape
+            my_shape = opponent_shape
 
-            # Find the winner. I win if my value is exactly one point greater than opponent
-            # but circling back to the beginning, i.e, 3+1 goes around back to 1
-            
-            my_shape = 0
-            if needed_result == 'draw':
-                #play the same shape
-                my_shape = opponent_shape
+        elif needed_result == 'lose':
+            #play the shape before the opponent's
+            my_shape = opponent_shape - 1
+            if my_shape < 1:
+                my_shape = 3
 
-            elif needed_result == 'lose':
-                #play the shape before the opponent's
-                my_shape = opponent_shape - 1
-                if my_shape < 1:
-                    my_shape = 3
-
-            elif needed_result == 'win':
-                #play the shape after the opponent's
-                my_shape = opponent_shape + 1
-                if my_shape > 3:
-                    my_shape = 1
-            
-            total_score += my_shape
-
-            line = file.readline()
+        elif needed_result == 'win':
+            #play the shape after the opponent's
+            my_shape = opponent_shape + 1
+            if my_shape > 3:
+                my_shape = 1
+        
+        total_score += my_shape
 
     print(f'The total projected score is {total_score}')
+
+def get_input_lines():
+    with open('input.txt', 'r') as file:
+        return file.readlines()
 
 def main():
     part_one()
