@@ -33,7 +33,7 @@ Find the item type that appears in both compartments of each rucksack. What is t
 
 
 '''
-from ast import List
+from typing import List
 
 
 def part_one():
@@ -86,7 +86,7 @@ Find the item type that corresponds to the badges of each three-Elf group. What 
 '''
 def part_two():
     group_size = 3
-    list_of_sets = []
+    list_of_sets: List[set] = []
 
     priority_sum = 0
     for line in get_input_lines():
