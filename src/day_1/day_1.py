@@ -1,4 +1,3 @@
-
 '''
 The jungle must be too overgrown and difficult to navigate in vehicles or access from the air; the Elves' expedition traditionally goes on foot. As your boats approach land, the Elves begin taking inventory of their supplies. One important consideration is food - in particular, the number of Calories each Elf is carrying (your puzzle input).
 
@@ -32,16 +31,11 @@ In case the Elves get hungry and need extra snacks, they need to know which Elf 
 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 
 '''
-
-'''
-Main method
-'''
-
-def part_one():
+def part_one(use_test_input: bool):
     current_total = 0
     max_calories = -1
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         if line.isspace():
             max_calories = max(max_calories, current_total)
             current_total = 0
@@ -49,7 +43,7 @@ def part_one():
             number_value = int(line)
             current_total += number_value
     
-    print(f'The max number of calories is {max_calories}')
+    return max_calories
 
 '''
 By the time you calculate the answer to the Elves' question, they've already realized that the Elf carrying the most Calories of food might eventually run out of snacks.
@@ -60,12 +54,12 @@ In the example above, the top three Elves are the fourth Elf (with 24000 Calorie
 
 Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
 '''
-def part_two():
+def part_two(use_test_input: bool):
     top_n = 3
     top_calories = list()
     current_total = 0
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         if line.isspace():
             top_calories.append(current_total)
             current_total = 0
@@ -80,15 +74,18 @@ def part_two():
     for i in range(top_n):
         top_n_total += top_calories[i]
 
-    print(f'The top {top_n} elves are carrying a total of {top_n_total} calories')
+    return top_n_total
+
+def __get_input_lines(use_test_input: bool):
+    filename = 'test_input.txt' if use_test_input else 'input.txt'
+    with open(filename, 'r') as file:
+        return file.readlines()
 
 def main():
-    part_one()
-    part_two()
-
-def get_input_lines():
-    with open('input.txt', 'r') as file:
-        return file.readlines()
+    print(f'Part one test result: {part_one(True)}')
+    print(f'Part one real result: {part_one(False)}')
+    print(f'Part two test result: {part_two(True)}')
+    print(f'Part two real result: {part_two(False)}')
 
 if __name__ == '__main__':
     main()

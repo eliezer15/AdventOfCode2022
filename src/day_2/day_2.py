@@ -27,7 +27,7 @@ In this example, if you were to follow the strategy guide, you would get a total
 
 What would your total score be if everything goes exactly according to your strategy guide?
 '''
-def part_one():
+def part_one(use_test_input: bool):
     # I will treat Rock = 1, Paper = 2, Scissors = 3
     # This is also the value of the shape, so it keeps it simple
     letter_to_shape = {
@@ -47,7 +47,7 @@ def part_one():
 
     total_score = 0
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         input = line.split()
         opponent_shape = letter_to_shape[input[0]]
         my_shape = letter_to_shape[input[1]]
@@ -73,7 +73,7 @@ def part_one():
 
         total_score += result_to_points[result]
 
-    print(f'The total projected score is {total_score}')
+    return total_score
             
 '''
 The Elf finishes helping with the tent and sneaks back over to you. "Anyway, the second column says how the round needs to end: X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
@@ -87,7 +87,7 @@ Now that you're correctly decrypting the ultra top secret strategy guide, you wo
 
 Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
 '''
-def part_two():
+def part_two(use_test_input: bool):
         # I will treat Rock = 1, Paper = 2, Scissors = 3
     # This is also the value of the shape, so it keeps it simple
     letter_to_shape = {
@@ -110,7 +110,7 @@ def part_two():
 
     total_score = 0
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         input = line.split()
         opponent_shape = letter_to_shape[input[0]]
         needed_result = letter_to_result[input[1]]
@@ -139,15 +139,19 @@ def part_two():
         
         total_score += my_shape
 
-    print(f'The total projected score is {total_score}')
+    return total_score
 
-def get_input_lines():
-    with open('input.txt', 'r') as file:
+def __get_input_lines(use_test_input: bool):
+    filename = 'test_input.txt' if use_test_input else 'input.txt'
+    with open(filename, 'r') as file:
         return file.readlines()
 
 def main():
-    part_one()
-    part_two()
+    print(f'Part one test result: {part_one(True)}')
+    print(f'Part one real result: {part_one(False)}')
+    print(f'Part two test result: {part_two(True)}')
+    print(f'Part two real result: {part_two(False)}')
 
 if __name__ == '__main__':
     main()
+

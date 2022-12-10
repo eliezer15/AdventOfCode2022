@@ -36,11 +36,11 @@ Find the item type that appears in both compartments of each rucksack. What is t
 from typing import List
 
 
-def part_one():
+def part_one(use_test_input: bool):
     
     priority_sum = 0
     
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         items = line.strip()
         items_per_comparment = int(len(items) / 2) #assume the length is always even
 
@@ -55,9 +55,9 @@ def part_one():
         # Assume there's exactly 1 common item, as per the problem definition
         common_item = left_compartment_set.intersection(right_compartment_set).pop()
 
-        priority_sum += get_item_priority(common_item)
+        priority_sum += __get_item_priority(common_item)
     
-    print(f'The priority sum is {priority_sum}')
+    return priority_sum
 
 '''
 As you finish identifying the misplaced items, the Elves come to you with another issue.
@@ -84,47 +84,50 @@ Priorities for these items must still be found to organize the sticker attachmen
 
 Find the item type that corresponds to the badges of each three-Elf group. What is the sum of the priorities of those item types?
 '''
-def part_two():
+def part_two(use_test_input: bool):
     group_size = 3
     list_of_sets: List[set] = []
 
     priority_sum = 0
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         items = line.strip()
 
         if len(list_of_sets) < group_size:
             list_of_sets.append(set(items))
         
         else:
-            priority_sum += get_common_item_priority(list_of_sets)
+            priority_sum += __get_common_item_priority(list_of_sets)
 
             list_of_sets.clear()
             list_of_sets.append(set(items))
     
     # Don't forget to do it one last time when the loop breaks!
-    priority_sum += get_common_item_priority(list_of_sets)
+    priority_sum += __get_common_item_priority(list_of_sets)
 
-    print(f'Priority sum is {priority_sum}')
+    return priority_sum
 
-def get_common_item_priority(list_of_sets: List) -> int:
+def __get_common_item_priority(list_of_sets: List) -> int:
     # The * passes each set in the list as a variadic argument to the function
     intersect_result = list_of_sets[0].intersection(*list_of_sets[1:])
     common_item = intersect_result.pop()
-    return get_item_priority(common_item)
+    return __get_item_priority(common_item)
 
-def get_item_priority(item: str) -> int:
+def __get_item_priority(item: str) -> int:
     if item.islower():
         return ord(item) - ord('a') + 1
     else:
         return ord(item) - ord('A') + 27
 
-def get_input_lines():
-    with open('input.txt', 'r') as file:
+def __get_input_lines(use_test_input: bool):
+    filename = 'test_input.txt' if use_test_input else 'input.txt'
+    with open(filename, 'r') as file:
         return file.readlines()
 
 def main():
-    #part_one()
-    part_two()
+    print(f'Part one test result: {part_one(True)}')
+    print(f'Part one real result: {part_one(False)}')
+    print(f'Part two test result: {part_two(True)}')
+    print(f'Part two real result: {part_two(False)}')
 
 if __name__ == '__main__':
     main()

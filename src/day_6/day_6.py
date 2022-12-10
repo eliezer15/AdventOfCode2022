@@ -32,7 +32,7 @@ zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 11
 How many characters need to be processed before the first start-of-packet marker is detected?
 '''
 def part_one(use_test_input: bool):
-    input = get_input_lines(use_test_input)[0]
+    input = __get_input_lines(use_test_input)[0]
     return __find_start_of_packet(4, input)
 
 def __find_start_of_packet(window_size, input):
@@ -69,10 +69,10 @@ zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 26
 How many characters need to be processed before the first start-of-message marker is detected?
 '''
 def part_two(use_test_input: bool):
-    input = get_input_lines(use_test_input)[0]
+    input = __get_input_lines(use_test_input)[0]
     return __find_start_of_packet(14, input)
 
-def get_input_lines(use_test_input: bool):
+def __get_input_lines(use_test_input: bool):
     filename = 'test_input.txt' if use_test_input  else 'input.txt'
     with open(filename, 'r') as file:
         return file.readlines()

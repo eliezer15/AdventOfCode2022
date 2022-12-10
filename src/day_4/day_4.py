@@ -42,23 +42,23 @@ In how many assignment pairs does one range fully contain the other?
 from typing import List
 
 
-def part_one():
+def part_one(use_test_input: bool):
     fully_contained_pairs = []
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         line = line.strip()
         pairs = line.split(',')
 
         pair_1 = pairs[0].split('-')
         pair_2 = pairs[1].split('-')
 
-        if is_fully_contained(pair_1, pair_2) or is_fully_contained(pair_2, pair_1):
+        if __is_fully_contained(pair_1, pair_2) or __is_fully_contained(pair_2, pair_1):
             fully_contained_pairs.append(line)
         
-    print(f'Total is {len(fully_contained_pairs)}')
+    return len(fully_contained_pairs)
 
 
-def is_fully_contained(pair_1: List, pair_2: List):
+def __is_fully_contained(pair_1: List, pair_2: List):
     # Don't forget to compare the Int version of the numbers and not the string!!!!
     return int(pair_1[0]) <= int(pair_2[0]) and int(pair_1[1]) >= int(pair_2[1])
 
@@ -75,26 +75,22 @@ So, in this example, the number of overlapping assignment pairs is 4.
 
 In how many assignment pairs do the ranges overlap?
 '''
-def part_two():
+def part_two(use_test_input: bool):
     fully_contained_pairs = []
 
-    for line in get_input_lines():
+    for line in __get_input_lines(use_test_input):
         line = line.strip()
         pairs = line.split(',')
 
         pair_1 = pairs[0].split('-')
         pair_2 = pairs[1].split('-')
 
-        if overlaps(pair_1, pair_2):
+        if __overlaps(pair_1, pair_2):
             fully_contained_pairs.append(line)
         
-    print(f'Total is {len(fully_contained_pairs)}')
+    return len(fully_contained_pairs)
 
-def get_input_lines():
-    with open('input.txt', 'r') as file:
-        return file.readlines()
-
-def overlaps(pair_1: List, pair_2: List):
+def __overlaps(pair_1: List, pair_2: List):
     start_1 = int(pair_1[0])
     end_1 = int(pair_1[1])
 
@@ -110,9 +106,16 @@ def overlaps(pair_1: List, pair_2: List):
     else:
         return True
 
+def __get_input_lines(use_test_input: bool):
+    filename = 'test_input.txt' if use_test_input else 'input.txt'
+    with open(filename, 'r') as file:
+        return file.readlines()
+
 def main():
-    part_one()
-    part_two()
+    print(f'Part one test result: {part_one(True)}')
+    print(f'Part one real result: {part_one(False)}')
+    print(f'Part two test result: {part_two(True)}')
+    print(f'Part two real result: {part_two(False)}')
 
 if __name__ == '__main__':
     main()
